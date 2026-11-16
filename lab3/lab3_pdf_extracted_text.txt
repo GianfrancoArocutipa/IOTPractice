@@ -1,0 +1,939 @@
+=== PÁGINA 1 ===
+UNIVERSIDAD PRIVADA DE TACNA 
+FACULTAD DE INGENIERÍA 
+ESCUELA DE INGENIERÍA DE SISTEMAS 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Guía Práctica de Laboratorio 
+ 
+ 
+“PLACA Esp32” 
+ 
+ 
+ 
+Que se presenta para el curso: 
+“INTERNET DE LAS COSAS” 
+ 
+ 
+Docente: 
+Mgr. Alex Juan Yanqui Constancio 
+ 
+ 
+ 
+TACNA – PERÚ 
+2026 
+ 
+ 
+  
+
+
+=== PÁGINA 2 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 2 - 
+Índice General 
+  
+Introducción ................................................................................................................................. 3 
+1. Información sobre el evento práctico .......................................................................... 4 
+1.1. Título del evento práctico ...................................................................................... 4 
+1.2. Objetivos .................................................................................................................. 4 
+1.3. Tiempo de duración (horas) .................................................................................. 4 
+1.4. Resultados de Aprendizaje (RA) .......................................................................... 4 
+1.5. Recursos (Equipos, materiales, programas y otros) ......................................... 4 
+2. Procedimiento o Metodología ....................................................................................... 5 
+2.1 Instalando Plugin del ESP32 para Arduino. ................................................................... 5 
+2.2 MONTAJE....................................................................................................................... 8 
+2.3 PROGRAMA HOLA MUNDO DE EJEMPLO ..................................................................... 8 
+2.4 Prueba con leds ........................................................................................................... 10 
+2.5 Modificación con puerto serial ................................................................................... 12 
+2.6 Prueba con Sensor DHT22 ........................................................................................... 13 
+2.7 Prueba con Sensor DHT22 + conexión Internet + Adafruit ......................................... 14 
+2.8 Agregaremos lo siguiente en el código ....................................................................... 16 
+3. Cuestionario .................................................................................................................. 20 
+4. Referencias Bibliográficas........................................................................................... 20 
+5. Anexos ........................................................................................................................... 20 
+ 
+ 
+ 
+ 
+ 
+  
+
+=== PÁGINA 3 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 3 - 
+ 
+Introducción 
+ 
+ 
+ESP32 es la denominación de una familia de chips SoC de bajo costo y consumo de 
+energía, con tecnología Wi-Fi y Bluetooth de modo dual integrada. El ESP32 emplea un 
+microprocesador Tensilica Xtensa LX6 en sus variantes de simple y doble núcleo e 
+incluye interruptores de antena, balun de radiofrecuencia, amplificador de potencia, 
+amplificador receptor de bajo ruido, filtros, y módulos de administración de energía. El 
+ESP32 fue creado y desarrollado por Espressif Systems y es fabricado por TSMC 
+utilizando su proceso de 40 nm. Es un sucesor de otro SoC, el ESP8266. 
+ESP 32 CARACTERISTICAS 
+• Procesadores: 
+• Procesador principal: microprocesador Tensilica Xtensa LX6 de 32 bits 
+• Núcleos: 2 o 1 (según variación). Todos los chips de la serie ESP32 son de doble 
+núcleo, excepto el ESP32 -S0WD, que es de un solo núcleo. Frecuencia de reloj: 
+hasta 240 MHz 
+• Rendimiento: hasta 600 DMIPS 
+• Coprocesador de potencia ultrabaja: le permite realizar conversiones ADC, cálculos 
+y umbrales de nivel mientras está en sueño profundo. 
+• Conectividad inalámbrica: 
+• Wi-Fi: 802.11 b / g / n / e / i (802.11n @ 2.4 GHz hasta 150 Mbit / s) 
+• Bluetooth: v4.2 BR / EDR y Bluetooth de baja energía (BLE) 
+ 
+  
+
+=== PÁGINA 4 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 4 - 
+Guía de Laboratorio Nº9 “PLACA Esp32” 
+1. Información sobre el evento práctico 
+ 
+1.1. Título del evento práctico 
+PLACA Esp32 
+ 
+1.2. Objetivos 
+• Configurar la placa Esp32 
+• Accesar a los sensores via Wokwi 
+ 
+1.3. Tiempo de duración (horas) 
+ 
+02 horas.  
+ 
+1.4. Resultados de Aprendizaje (RA) 
+RA1: Configura controlador Esp32 
+RA2: Configura sensores y actuadores en Wokwi 
+ 
+1.5. Recursos (Equipos, materiales, programas y otros) 
+▪ Computador 
+▪ Ide de Arduino 
+▪ Tinkercad 
+▪ 1 Arduino Uno R3, Esp32 
+▪ Proteus Isis v.8.6 o superior 
+▪ Varios Leds Rojos y Verdes 
+ 
+ 
+  
+
+=== PÁGINA 5 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 5 - 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+2. Procedimiento o Metodología 
+ 
+2.1 Instalando Plugin del ESP32 para Arduino. 
+Este paso es necesario para que nuestro IDE de Arduino reconozca a nuestro ESP32 
+como una tarjeta. 
+Seguidamente vamos a : A rchivo > Preferencias y en la casilla “Gestor de URLs 
+Adicionales de Tarjetas” agregamos: 
+Agregar URL del administrador del tablero : 
+Versión estable (recomendada para la mayoría de los usuarios) : 
+https://espressif.github.io/arduino-esp32/package_esp32_index.json 
+ 
+Si tenemos otra dirección lo separamos con coma. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+=== PÁGINA 6 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 6 - 
+Seguidamente vamos a: Herramientas > placa: … > Gestor de Tarjetas 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Y buscamos en la lista “ESP32 “, lo seleccionamos e instalamos. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+=== PÁGINA 7 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 7 - 
+Ahora en herramientas > placa, deben de estar las nuevas placas instaladas. 
+Si no aparece el nombre de nuestra placa seleccionamos ESP32 Dev Module 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+=== PÁGINA 8 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 8 - 
+ 
+2.2 MONTAJE 
+2.3 PROGRAMA HOLA MUNDO DE EJEMPLO 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+=== PÁGINA 9 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 9 - 
+/* 
+ *      -----HOLA MUNDO----- 
+ *  
+*/ 
+void setup() { 
+ Serial.begin(115200);  //Se inicializa la conexión serie a 115200 baudios. 
+ Serial.println("Esta linea se ejecuta en el void setup."); 
+ Serial.println("esta es una segunda linea del void setup."); 
+} 
+ 
+void loop() { 
+  Serial.println(" Esta linea pertenece al void loop  "); 
+  Serial.println(" En otra linea --- Hola Mundo ---"); 
+  delay(2000); 
+} 
+ 
+Compilamos 
+Luego conectamos el esp32, aparecerá un nuevo puerto com , el cual 
+seleccionamos. Ya podemos subir el programa. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(En algunas placas antiguas se presiona boot cuando sale connecting) 
+Visualizamos el puerto serial 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+=== PÁGINA 10 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 10 - 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+2.4 Prueba con leds 
+/* 
+ *      -----LEDS----- 
+ */ 
+ 
+#define verde 18       //Se definen los pines a los que están conectados los LEDs. 
+#define rojo 21 
+#define amarillo 22 
+ 
+void setup() { 
+ 
+  pinMode(verde,OUTPUT);    //Se configuran los pines como salida. 
+  pinMode(rojo,OUTPUT); 
+  pinMode(amarillo,OUTPUT); 
+} 
+ 
+void loop() { 
+   
+  digitalWrite(verde,HIGH);     //high = 1    low = 0  
+  delay(1000);                  //Espera de mil milisegundos entra acciones. 
+  digitalWrite(rojo,HIGH); 
+  delay(1000); 
+  digitalWrite(amarillo,HIGH); 
+  delay(1000); 
+ 
+  digitalWrite(verde,LOW); 
+  delay(1000); 
+  digitalWrite(rojo,LOW); 
+  delay(1000); 
+  digitalWrite(amarillo,LOW); 
+  delay(1000); 
+} 
+ 
+ 
+ 
+
+
+=== PÁGINA 11 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 11 - 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+/* 
+ *      -----LEDS----- 
+ */ 
+ 
+#define verde 18       //Se definen los pines a los que están conectados los 
+LEDs. 
+#define rojo 21 
+#define amarillo 22 
+ 
+void setup() { 
+ 
+  pinMode(verde,OUTPUT);    //Se configuran los pines como salida. 
+  pinMode(rojo,OUTPUT); 
+  pinMode(amarillo,OUTPUT); 
+} 
+ 
+void loop() { 
+   
+  digitalWrite(verde,HIGH);     //high = 1    low = 0  
+  delay(1000);                  //Espera de mil milisegundos entra acciones. 
+  digitalWrite(rojo,HIGH); 
+  delay(1000); 
+  digitalWrite(amarillo,HIGH); 
+  delay(1000); 
+ 
+  digitalWrite(verde,LOW); 
+  delay(1000); 
+  digitalWrite(rojo,LOW); 
+  delay(1000); 
+  digitalWrite(amarillo,LOW); 
+  delay(1000); 
+} 
+ 
+ 
+ 
+
+
+=== PÁGINA 12 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 12 - 
+2.5 Modificación con puerto serial 
+#define verde 18      //Se definen los pines a los que están conectados los LEDs. 
+#define rojo 21 
+#define amarillo 22 
+void setup() { 
+  Serial.begin(115200);     //Se inicializa la conexión serie a 115200 baudios. 
+  pinMode(verde,OUTPUT);    //Se configuran los pines como salida. 
+  pinMode(rojo,OUTPUT); 
+  pinMode(amarillo,OUTPUT); 
+} 
+void loop() { 
+  digitalWrite(verde,HIGH);     //high = 1    low = 0  
+  Serial.println("Led Verde ON "); 
+  delay(1000);                  //Espera de mil milisegundos entra acciones. 
+  digitalWrite(rojo,HIGH); 
+  Serial.println("Led rojo ON "); 
+  delay(1000); 
+  digitalWrite(amarillo,HIGH); 
+  Serial.println("Led amarillo ON "); 
+  delay(1000); 
+  digitalWrite(verde,LOW); 
+  Serial.println("Led VERDE OFF "); 
+  delay(1000); 
+  digitalWrite(rojo,LOW); 
+  Serial.println("Led ROJO OFF "); 
+  delay(1000); 
+  digitalWrite(amarillo,LOW); 
+  Serial.println("Led AMARILLO OFF "); 
+  delay(1000); 
+} 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+=== PÁGINA 13 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 13 - 
+2.6 Prueba con Sensor DHT22 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+/* 
+ *      -----TEST SENSORES DHT22  
+*/ 
+#include "DHT.h"             // incluimos el módulo de temperatura 
+#define pin1 13 
+ 
+int pin2=14; 
+int Volt=0; 
+DHT dht(pin1, DHT22);    //El sensor blanco (DHT11 es el azul) 
+ 
+void setup() { 
+  Serial.begin(115200); 
+  Serial.println("Test de sensores:"); 
+  dht.begin(); 
+} 
+void loop() { 
+  delay(500); 
+  leerdht(); 
+  delay(500); 
+  leerpot(); 
+} 
+void leerdht() { 
+  float h = dht.readHumidity(); //Leemos la Humedad 
+  float tc = dht.readTemperature(); //Leemos la temperatura en Celsius 
+  float tf = dht.readTemperature(true);//Leemos la temperatura en Fahrenheit 
+  float  st= dht.computeHeatIndex(tc,h); //Sensación Termica 
+  Serial.println("Temperatura: " + String(tc)+ " °C "); 
+  Serial.println("Humedad: " + String(h) ); 
+  Serial.println("Temperatura: " + String(tf)+ " °F "); 
+  Serial.println("Sensación Térmica: " + String(st) + "\n"); 
+  Serial.println("--------------------------------------------"); 
+  delay (2000); 
+} 
+void leerpot() { 
+  int potValor = analogRead(pin2); 
+  Serial.println("Volaje de entrada:" + String(potValor)+ "  binario" 
+);  //Envío del valor al puerto serie 
+  Serial.println("--------------------------------------------"); 
+  delay(500); 
+} 
+ 
+
+
+=== PÁGINA 14 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 14 - 
+2.7 Prueba con Sensor DHT22 + conexión Internet + Adafruit 
+Creamos una cuenta en Adafruit 
+ 
+https://io.adafruit.com/ 
+https://accounts.adafruit.com/users/sign_in 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+=== PÁGINA 15 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 15 - 
+Creamos nuestros nuevos feeds  
+Feed : Es el canal o "contenedor" que almacena los datos enviados por un sensor 
+o dispositivo. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Creamos nuestros un nuevo Dashboard  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+=== PÁGINA 16 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 16 - 
+Añadimos Bloques y los conectamos 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+2.8 Agregaremos lo siguiente en el código 
+Conectar el ESP32 de Wokwi a Adafruit IO (Recomendado) 
+ 
+Agregamos las librerías en Wokwi 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+=== PÁGINA 17 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 17 - 
+ 
+// Agregamos librerias 
+#include <WiFi.h> 
+#include "DHT.h" 
+#include "Adafruit_MQTT.h" 
+#include "Adafruit_MQTT_Client.h" 
+ 
+// CONFIGURACIÓN WIFI ================== 
+#define WLAN_SSID       "Wokwi-GUEST" 
+#define WLAN_PASS       "" 
+ 
+//ADAFRUIT IO ================== 
+#define AIO_SERVER      "io.adafruit.com" 
+#define AIO_SERVERPORT  1883 
+ 
+#define AIO_USERNAME "alexpremium" 
+#define AIO_KEY "xxxxxxxxxxxxxxxxxxxxxxxxxxx" 
+ 
+// PINES ================== 
+#define DHTPIN 13 
+#define DHTTYPE DHT22 
+int pin2 = 34; 
+ 
+WiFiClient client; 
+ 
+// Crear cliente MQTT 
+Adafruit_MQTT_Client mqtt(&client, AIO_SERVER, AIO_SERVERPORT, 
+                          AIO_USERNAME, AIO_KEY); 
+ 
+// Feeds de Adafruit 
+Adafruit_MQTT_Publish temperatura = 
+  Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/DHT22"); 
+ 
+Adafruit_MQTT_Publish voltaje = 
+  Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/Potenciometro"); 
+ 
+DHT dht(DHTPIN, DHTTYPE); 
+ 
+//--------------------------------------------------------- 
+void conectarMQTT(); 
+ 
+void setup() { 
+  Serial.begin(115200); 
+  dht.begin(); 
+  Serial.println("Conectando WiFi..."); 
+  WiFi.begin(WLAN_SSID, WLAN_PASS); 
+  while (WiFi.status() != WL_CONNECTED) { 
+    delay(500); 
+    Serial.print("."); 
+  } 
+  Serial.println(); 
+  Serial.println("WiFi conectado"); 
+} 
+ 
+void loop() { 
+  conectarMQTT(); 
+  leerdht(); 
+  leerpot(); 
+  Serial.println("Datos enviados a Adafruit IO"); 
+  Serial.println("--------------------------------"); 
+  delay(7000); 
+
+=== PÁGINA 18 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 18 - 
+} 
+ 
+// Leer temperatura ---------------------------------------------------- 
+void leerdht() { 
+ 
+    float tc = dht.readTemperature(); 
+    Serial.println("Temperatura : " + String(tc) + " °C"); 
+   temperatura.publish(tc); 
+  
+} 
+ 
+//Leer potenciómetro ------------------------------------------- 
+void leerpot() { 
+  int lectura = analogRead(pin2); 
+  // Conversión a voltaje (ESP32 ADC de 12 bits) 
+  float vol = lectura * 3.3 / 4095.0; 
+  Serial.println("ADC      : " + String(lectura)); 
+  Serial.println("Voltaje  : " + String(vol) + " V"); 
+  voltaje.publish(vol); 
+} 
+ 
+//conectar al MQTT -------------------------------------------- 
+void conectarMQTT() { 
+  int8_t ret; 
+  if (mqtt.connected()) { 
+    return; 
+  } 
+ 
+  Serial.print("Conectando a Adafruit IO... "); 
+  while ((ret = mqtt.connect()) != 0) { 
+    Serial.println(mqtt.connectErrorString(ret)); 
+    Serial.println("Reintentando en 5 segundos..."); 
+    mqtt.disconnect(); 
+    delay(5000); 
+  } 
+  Serial.println("Conectado"); 
+} 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+=== PÁGINA 19 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 19 - 
+ 
+Pines recomendados para entradas analógicas con WiFi 
+Utiliza cualquiera de estos: 
+• GPIO32 
+• GPIO33 
+• GPIO34  
+• GPIO35 
+• GPIO36 (VP) 
+• GPIO39 (VN) 
+Todos pertenecen al ADC1. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+=== PÁGINA 20 ===
+     Escuela Profesional de Ingeniería de Sistemas 
+ 
+ 
+Mgr. Alex Juan Yanqui Constancio   - 20 - 
+3. Cuestionario  
+ 
+1. Modifique el programa para que se pueda publicar temperatura, humedad, 
+sensación térmica, coloque otro potenciómetro adicional y que se muestre 
+en el Dashboard de adafruit. 
+ 
+4. Referencias Bibliográficas 
+ 
+ 
+• José Luis Ortiz Arciniega, Fernando Xavier Valencia Barahona y otros (2025), ESP32: 
+Manual básico para estudiantes, Alumni Editora Ecuador – Atuntaqui. 
+  
+• Burgoa Román, F. J. (2026).  Microcontrolador ESP32 -S3: curso práctico:  (1 ed.). RA -MA 
+Editorial. https://elibro.net/es/lc/bibliotecaupt/titulos/294849 
+ 
+5. Anexos 
+ 
+• Presentar un Informe Final donde deberá detallar como realizo la experiencia. 
+• Descripción del procedimiento seguido. 
+• Realice el cálculo Teóricos  
+ 

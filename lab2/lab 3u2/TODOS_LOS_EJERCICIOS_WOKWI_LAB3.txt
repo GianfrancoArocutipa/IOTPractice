@@ -1,0 +1,839 @@
+================================================================================
+GUÍA MAESTRA DE EJERCICIOS RESUELTOS - LABORATORIO 2.3 ESP32 WOKWI ADAFRUIT IO (LAB 3U2)
+Autores: Perez Peralta, Fabrizio Salvador Elias & Arocutipa Arocutipa, Gian Franco
+Universidad Privada de Tacna - Escuela Profesional de Ingeniería de Sistemas
+================================================================================
+
+================================================================================
+EJERCICIO: 01_CIRCUITO1_HOLAMUNDO_ESP32
+================================================================================
+
+--------------------------------------------------------------------------------
+ARCHIVO: sketch.ino
+--------------------------------------------------------------------------------
+// CIRCUITO 1: HOLA MUNDO - ESP32
+void setup() {
+  Serial.begin(115200);  // Inicialización serial estándar ESP32
+  Serial.println("Esta linea se ejecuta en el void setup.");
+  Serial.println("esta es una segunda linea del void setup.");
+}
+
+void loop() {
+  Serial.println(" Esta linea pertenece al void loop  ");
+  Serial.println(" En otra linea --- Hola Mundo ---");
+  delay(2000);
+}
+
+
+--------------------------------------------------------------------------------
+ARCHIVO: diagram.json
+--------------------------------------------------------------------------------
+{
+  "version": 1,
+  "author": "Perez Fabrizio - Arocutipa Gian Franco",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    }
+  ],
+  "connections": [],
+  "serialMonitor": {
+    "display": "auto"
+  },
+  "dependencies": {}
+}
+
+================================================================================
+EJERCICIO: 02_CIRCUITO2_SEMAFORO_LEDS_ESP32
+================================================================================
+
+--------------------------------------------------------------------------------
+ARCHIVO: sketch.ino
+--------------------------------------------------------------------------------
+// CIRCUITO 2: CONTROL DE SEMÁFORO DE 3 LEDS - ESP32
+#define verde 18       // GPIO 18 -> LED Verde
+#define rojo 21        // GPIO 21 -> LED Rojo
+#define amarillo 22    // GPIO 22 -> LED Amarillo
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(verde, OUTPUT);
+  pinMode(rojo, OUTPUT);
+  pinMode(amarillo, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(verde, HIGH);
+  Serial.println("Led Verde ON ");
+  delay(1000);
+
+  digitalWrite(rojo, HIGH);
+  Serial.println("Led rojo ON ");
+  delay(1000);
+
+  digitalWrite(amarillo, HIGH);
+  Serial.println("Led amarillo ON ");
+  delay(1000);
+
+  digitalWrite(verde, LOW);
+  Serial.println("Led VERDE OFF ");
+  delay(1000);
+
+  digitalWrite(rojo, LOW);
+  Serial.println("Led ROJO OFF ");
+  delay(1000);
+
+  digitalWrite(amarillo, LOW);
+  Serial.println("Led AMARILLO OFF ");
+  delay(1000);
+}
+
+
+--------------------------------------------------------------------------------
+ARCHIVO: diagram.json
+--------------------------------------------------------------------------------
+{
+  "version": 1,
+  "author": "Perez Fabrizio - Arocutipa Gian Franco",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_verde",
+      "top": -60,
+      "left": 140,
+      "attrs": {
+        "color": "green"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_amarillo",
+      "top": 20,
+      "left": 140,
+      "attrs": {
+        "color": "yellow"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_rojo",
+      "top": 100,
+      "left": 140,
+      "attrs": {
+        "color": "red"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -30,
+      "left": 200,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 50,
+      "left": 200,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r3",
+      "top": 130,
+      "left": 200,
+      "attrs": {
+        "value": "220"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:18",
+      "led_verde:A",
+      "green",
+      [
+        "h20",
+        "v-50"
+      ]
+    ],
+    [
+      "led_verde:C",
+      "r1:1",
+      "black",
+      []
+    ],
+    [
+      "r1:2",
+      "esp:GND.1",
+      "black",
+      [
+        "h20",
+        "v30",
+        "h-120"
+      ]
+    ],
+    [
+      "esp:22",
+      "led_amarillo:A",
+      "gold",
+      [
+        "h20",
+        "v0"
+      ]
+    ],
+    [
+      "led_amarillo:C",
+      "r2:1",
+      "black",
+      []
+    ],
+    [
+      "r2:2",
+      "esp:GND.1",
+      "black",
+      [
+        "h20",
+        "v-50",
+        "h-120"
+      ]
+    ],
+    [
+      "esp:21",
+      "led_rojo:A",
+      "red",
+      [
+        "h20",
+        "v50"
+      ]
+    ],
+    [
+      "led_rojo:C",
+      "r3:1",
+      "black",
+      []
+    ],
+    [
+      "r3:2",
+      "esp:GND.1",
+      "black",
+      [
+        "h20",
+        "v-130",
+        "h-120"
+      ]
+    ]
+  ],
+  "serialMonitor": {
+    "display": "auto"
+  },
+  "dependencies": {}
+}
+
+================================================================================
+EJERCICIO: 03_CIRCUITO3_SENSOR_DHT22_POTENCIOMETRO
+================================================================================
+
+--------------------------------------------------------------------------------
+ARCHIVO: sketch.ino
+--------------------------------------------------------------------------------
+// CIRCUITO 3: SENSOR DHT22 Y POTENCIÓMETRO ANALÓGICO - ESP32
+#include "DHT.h"
+
+#define pin1 13        // GPIO 13 -> Datos DHT22
+int pin2 = 34;         // GPIO 34 -> Potenciómetro (ADC1_CH6)
+
+DHT dht(pin1, DHT22);
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println("Test de sensores:");
+  dht.begin();
+}
+
+void loop() {
+  delay(500);
+  leerdht();
+  delay(500);
+  leerpot();
+}
+
+void leerdht() {
+  float h = dht.readHumidity();
+  float tc = dht.readTemperature();
+  float tf = dht.readTemperature(true);
+  float st = dht.computeHeatIndex(tc, h, false);
+
+  Serial.println("Temperatura: " + String(tc) + " °C");
+  Serial.println("Humedad: " + String(h) + " %");
+  Serial.println("Temperatura: " + String(tf) + " °F");
+  Serial.println("Sensación Térmica: " + String(st) + " °C");
+  Serial.println("--------------------------------------------");
+  delay(2000);
+}
+
+void leerpot() {
+  int potValor = analogRead(pin2);
+  float vol = potValor * 3.3 / 4095.0;
+  Serial.println("Lectura ADC: " + String(potValor) + " binario");
+  Serial.println("Voltaje: " + String(vol, 2) + " V");
+  Serial.println("--------------------------------------------");
+  delay(500);
+}
+
+
+--------------------------------------------------------------------------------
+ARCHIVO: diagram.json
+--------------------------------------------------------------------------------
+{
+  "version": 1,
+  "author": "Perez Fabrizio - Arocutipa Gian Franco",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht1",
+      "top": -80,
+      "left": 140,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot1",
+      "top": 100,
+      "left": 140,
+      "attrs": {
+        "value": "10k"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "dht1:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "v-20",
+        "h-140",
+        "v120"
+      ]
+    ],
+    [
+      "dht1:SDA",
+      "esp:13",
+      "gold",
+      [
+        "h20",
+        "v70",
+        "h-80"
+      ]
+    ],
+    [
+      "dht1:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "v20",
+        "h-80"
+      ]
+    ],
+    [
+      "pot1:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "h20",
+        "v-200",
+        "h-140",
+        "v120"
+      ]
+    ],
+    [
+      "pot1:SIG",
+      "esp:34",
+      "green",
+      [
+        "h-40",
+        "v-50"
+      ]
+    ],
+    [
+      "pot1:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "h-40",
+        "v-100"
+      ]
+    ]
+  ],
+  "serialMonitor": {
+    "display": "auto"
+  },
+  "dependencies": {}
+}
+
+--------------------------------------------------------------------------------
+ARCHIVO: libraries.txt
+--------------------------------------------------------------------------------
+DHT sensor library
+
+================================================================================
+EJERCICIO: 04_CIRCUITO4_ESP32_WIFI_ADAFRUIT_IO_MQTT
+================================================================================
+
+--------------------------------------------------------------------------------
+ARCHIVO: sketch.ino
+--------------------------------------------------------------------------------
+// CIRCUITO 4: ESP32 + WIFI + ADAFRUIT IO (MQTT)
+#include <WiFi.h>
+#include "DHT.h"
+#include "Adafruit_MQTT.h"
+#include "Adafruit_MQTT_Client.h"
+
+// Configuración WiFi Wokwi
+#define WLAN_SSID       "Wokwi-GUEST"
+#define WLAN_PASS       ""
+
+// Servidor y Credenciales Adafruit IO
+#define AIO_SERVER      "io.adafruit.com"
+#define AIO_SERVERPORT  1883
+#define AIO_USERNAME    "gianfranco_arocutipa"
+#define AIO_KEY         "aio_xxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+#define DHTPIN          13
+#define DHTTYPE         DHT22
+int pin2 = 34;          // GPIO 34 (ADC1_CH6)
+
+WiFiClient client;
+Adafruit_MQTT_Client mqtt(&client, AIO_SERVER, AIO_SERVERPORT, AIO_USERNAME, AIO_KEY);
+
+// Feeds en Adafruit IO
+Adafruit_MQTT_Publish temperatura = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/DHT22");
+Adafruit_MQTT_Publish voltaje     = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/Potenciometro");
+
+DHT dht(DHTPIN, DHTTYPE);
+
+void conectarMQTT();
+
+void setup() {
+  Serial.begin(115200);
+  dht.begin();
+  Serial.println("Conectando WiFi...");
+  WiFi.begin(WLAN_SSID, WLAN_PASS);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\nWiFi conectado exitosamente");
+}
+
+void loop() {
+  conectarMQTT();
+  leerdht();
+  leerpot();
+  Serial.println("Datos enviados a Adafruit IO");
+  Serial.println("--------------------------------");
+  delay(7000);
+}
+
+void leerdht() {
+  float tc = dht.readTemperature();
+  if (!isnan(tc)) {
+    Serial.println("Temperatura : " + String(tc) + " °C");
+    temperatura.publish(tc);
+  }
+}
+
+void leerpot() {
+  int lectura = analogRead(pin2);
+  float vol = lectura * 3.3 / 4095.0;
+  Serial.println("ADC      : " + String(lectura));
+  Serial.println("Voltaje  : " + String(vol) + " V");
+  voltaje.publish(vol);
+}
+
+void conectarMQTT() {
+  int8_t ret;
+  if (mqtt.connected()) return;
+
+  Serial.print("Conectando a Adafruit IO... ");
+  while ((ret = mqtt.connect()) != 0) {
+    Serial.println(mqtt.connectErrorString(ret));
+    Serial.println("Reintentando en 5 segundos...");
+    mqtt.disconnect();
+    delay(5000);
+  }
+  Serial.println("Conectado");
+}
+
+
+--------------------------------------------------------------------------------
+ARCHIVO: diagram.json
+--------------------------------------------------------------------------------
+{
+  "version": 1,
+  "author": "Perez Fabrizio - Arocutipa Gian Franco",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht1",
+      "top": -80,
+      "left": 140,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot1",
+      "top": 100,
+      "left": 140,
+      "attrs": {
+        "value": "10k"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "dht1:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "v-20",
+        "h-140",
+        "v120"
+      ]
+    ],
+    [
+      "dht1:SDA",
+      "esp:13",
+      "gold",
+      [
+        "h20",
+        "v70",
+        "h-80"
+      ]
+    ],
+    [
+      "dht1:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "v20",
+        "h-80"
+      ]
+    ],
+    [
+      "pot1:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "h20",
+        "v-200",
+        "h-140",
+        "v120"
+      ]
+    ],
+    [
+      "pot1:SIG",
+      "esp:34",
+      "green",
+      [
+        "h-40",
+        "v-50"
+      ]
+    ],
+    [
+      "pot1:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "h-40",
+        "v-100"
+      ]
+    ]
+  ],
+  "serialMonitor": {
+    "display": "auto"
+  },
+  "dependencies": {}
+}
+
+--------------------------------------------------------------------------------
+ARCHIVO: libraries.txt
+--------------------------------------------------------------------------------
+Adafruit MQTT Library
+DHT sensor library
+
+================================================================================
+EJERCICIO: 05_CIRCUITO5_CUESTIONARIO_INTEGRADOR_ADAFRUIT_5FEEDS
+================================================================================
+
+--------------------------------------------------------------------------------
+ARCHIVO: sketch.ino
+--------------------------------------------------------------------------------
+// CIRCUITO 5: CUESTIONARIO INTEGRAL - 5 FEEDS EN ADAFRUIT IO
+// Publica: Temperatura, Humedad, Sensación Térmica, Potenciómetro 1 y Potenciómetro 2
+#include <WiFi.h>
+#include "DHT.h"
+#include "Adafruit_MQTT.h"
+#include "Adafruit_MQTT_Client.h"
+
+#define WLAN_SSID       "Wokwi-GUEST"
+#define WLAN_PASS       ""
+
+#define AIO_SERVER      "io.adafruit.com"
+#define AIO_SERVERPORT  1883
+#define AIO_USERNAME    "gianfranco_arocutipa"
+#define AIO_KEY         "aio_xxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+#define DHTPIN          13
+#define DHTTYPE         DHT22
+const int pinPot1     = 34; // Potenciómetro 1 (ADC1 - Canal 6)
+const int pinPot2     = 35; // Potenciómetro 2 (ADC1 - Canal 7)
+
+WiFiClient client;
+Adafruit_MQTT_Client mqtt(&client, AIO_SERVER, AIO_SERVERPORT, AIO_USERNAME, AIO_KEY);
+
+// 5 Feeds configurados en Adafruit IO
+Adafruit_MQTT_Publish feedTemp     = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/temperatura");
+Adafruit_MQTT_Publish feedHum      = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/humedad");
+Adafruit_MQTT_Publish feedSensTerm = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/sensacion-termica");
+Adafruit_MQTT_Publish feedPot1     = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/potenciometro-1");
+Adafruit_MQTT_Publish feedPot2     = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/potenciometro-2");
+
+DHT dht(DHTPIN, DHTTYPE);
+
+void conectarMQTT();
+
+void setup() {
+  Serial.begin(115200);
+  dht.begin();
+  Serial.println("Iniciando conexión WiFi...");
+  WiFi.begin(WLAN_SSID, WLAN_PASS);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\n[WiFi] Conectado exitosamente");
+}
+
+void loop() {
+  conectarMQTT();
+
+  // 1. Lecturas de DHT22
+  float h = dht.readHumidity();
+  float tc = dht.readTemperature();
+  if (!isnan(h) && !isnan(tc)) {
+    float st = dht.computeHeatIndex(tc, h, false);
+    Serial.println("[DHT22] Temp: " + String(tc, 1) + " °C | Hum: " + String(h, 1) + " % | ST: " + String(st, 1) + " °C");
+    feedTemp.publish(tc);
+    feedHum.publish(h);
+    feedSensTerm.publish(st);
+  }
+
+  // 2. Potenciómetro 1 (GPIO 34 - ADC1)
+  int val1 = analogRead(pinPot1);
+  float vol1 = val1 * 3.3 / 4095.0;
+  Serial.println("[POT 1] ADC: " + String(val1) + " | Voltaje: " + String(vol1, 2) + " V");
+  feedPot1.publish(vol1);
+
+  // 3. Potenciómetro 2 (GPIO 35 - ADC1)
+  int val2 = analogRead(pinPot2);
+  float vol2 = val2 * 3.3 / 4095.0;
+  Serial.println("[POT 2] ADC: " + String(val2) + " | Voltaje: " + String(vol2, 2) + " V");
+  feedPot2.publish(vol2);
+
+  Serial.println("-> 5 Feeds transmitidos a Adafruit IO. Próximo ciclo en 7s...");
+  Serial.println("----------------------------------------------------------------");
+  delay(7000);
+}
+
+void conectarMQTT() {
+  int8_t ret;
+  if (mqtt.connected()) return;
+
+  Serial.print("Conectando con Adafruit IO MQTT... ");
+  while ((ret = mqtt.connect()) != 0) {
+    Serial.println(mqtt.connectErrorString(ret));
+    Serial.println("Reintentando en 5 segundos...");
+    mqtt.disconnect();
+    delay(5000);
+  }
+  Serial.println("¡Conectado exitosamente!");
+}
+
+
+--------------------------------------------------------------------------------
+ARCHIVO: diagram.json
+--------------------------------------------------------------------------------
+{
+  "version": 1,
+  "author": "Perez Fabrizio - Arocutipa Gian Franco",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht1",
+      "top": -90,
+      "left": 150,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot1",
+      "top": 60,
+      "left": 150,
+      "attrs": {
+        "value": "10k"
+      }
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot2",
+      "top": 180,
+      "left": 150,
+      "attrs": {
+        "value": "10k"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "dht1:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "v-20",
+        "h-150",
+        "v120"
+      ]
+    ],
+    [
+      "dht1:SDA",
+      "esp:13",
+      "gold",
+      [
+        "h20",
+        "v80",
+        "h-90"
+      ]
+    ],
+    [
+      "dht1:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "v20",
+        "h-90"
+      ]
+    ],
+    [
+      "pot1:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "h20",
+        "v-160",
+        "h-150",
+        "v120"
+      ]
+    ],
+    [
+      "pot1:SIG",
+      "esp:34",
+      "green",
+      [
+        "h-40",
+        "v-10"
+      ]
+    ],
+    [
+      "pot1:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "h-40",
+        "v-60"
+      ]
+    ],
+    [
+      "pot2:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "h20",
+        "v-280",
+        "h-150",
+        "v120"
+      ]
+    ],
+    [
+      "pot2:SIG",
+      "esp:35",
+      "blue",
+      [
+        "h-40",
+        "v-110"
+      ]
+    ],
+    [
+      "pot2:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "h-40",
+        "v-180"
+      ]
+    ]
+  ],
+  "serialMonitor": {
+    "display": "auto"
+  },
+  "dependencies": {}
+}
+
+--------------------------------------------------------------------------------
+ARCHIVO: libraries.txt
+--------------------------------------------------------------------------------
+Adafruit MQTT Library
+DHT sensor library
+

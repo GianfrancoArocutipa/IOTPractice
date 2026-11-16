@@ -1,0 +1,132 @@
+{
+  "version": 1,
+  "author": "Perez Fabrizio - Arocutipa Gian Franco",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht1",
+      "top": -90,
+      "left": 150,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot1",
+      "top": 60,
+      "left": 150,
+      "attrs": {
+        "value": "10k"
+      }
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot2",
+      "top": 180,
+      "left": 150,
+      "attrs": {
+        "value": "10k"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "dht1:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "v-20",
+        "h-150",
+        "v120"
+      ]
+    ],
+    [
+      "dht1:SDA",
+      "esp:13",
+      "gold",
+      [
+        "h20",
+        "v80",
+        "h-90"
+      ]
+    ],
+    [
+      "dht1:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "v20",
+        "h-90"
+      ]
+    ],
+    [
+      "pot1:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "h20",
+        "v-160",
+        "h-150",
+        "v120"
+      ]
+    ],
+    [
+      "pot1:SIG",
+      "esp:34",
+      "green",
+      [
+        "h-40",
+        "v-10"
+      ]
+    ],
+    [
+      "pot1:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "h-40",
+        "v-60"
+      ]
+    ],
+    [
+      "pot2:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "h20",
+        "v-280",
+        "h-150",
+        "v120"
+      ]
+    ],
+    [
+      "pot2:SIG",
+      "esp:35",
+      "blue",
+      [
+        "h-40",
+        "v-110"
+      ]
+    ],
+    [
+      "pot2:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "h-40",
+        "v-180"
+      ]
+    ]
+  ],
+  "serialMonitor": {
+    "display": "auto"
+  },
+  "dependencies": {}
+}

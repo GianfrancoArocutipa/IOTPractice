@@ -1,0 +1,149 @@
+{
+  "version": 1,
+  "author": "Perez Fabrizio - Arocutipa Gian Franco",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_verde",
+      "top": -60,
+      "left": 140,
+      "attrs": {
+        "color": "green"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_amarillo",
+      "top": 20,
+      "left": 140,
+      "attrs": {
+        "color": "yellow"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_rojo",
+      "top": 100,
+      "left": 140,
+      "attrs": {
+        "color": "red"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -30,
+      "left": 200,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 50,
+      "left": 200,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r3",
+      "top": 130,
+      "left": 200,
+      "attrs": {
+        "value": "220"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:18",
+      "led_verde:A",
+      "green",
+      [
+        "h20",
+        "v-50"
+      ]
+    ],
+    [
+      "led_verde:C",
+      "r1:1",
+      "black",
+      []
+    ],
+    [
+      "r1:2",
+      "esp:GND.1",
+      "black",
+      [
+        "h20",
+        "v30",
+        "h-120"
+      ]
+    ],
+    [
+      "esp:22",
+      "led_amarillo:A",
+      "gold",
+      [
+        "h20",
+        "v0"
+      ]
+    ],
+    [
+      "led_amarillo:C",
+      "r2:1",
+      "black",
+      []
+    ],
+    [
+      "r2:2",
+      "esp:GND.1",
+      "black",
+      [
+        "h20",
+        "v-50",
+        "h-120"
+      ]
+    ],
+    [
+      "esp:21",
+      "led_rojo:A",
+      "red",
+      [
+        "h20",
+        "v50"
+      ]
+    ],
+    [
+      "led_rojo:C",
+      "r3:1",
+      "black",
+      []
+    ],
+    [
+      "r3:2",
+      "esp:GND.1",
+      "black",
+      [
+        "h20",
+        "v-130",
+        "h-120"
+      ]
+    ]
+  ],
+  "serialMonitor": {
+    "display": "auto"
+  },
+  "dependencies": {}
+}

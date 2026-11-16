@@ -1,0 +1,114 @@
+================================================================================
+CIRCUITO 0: CONTROL DE RELÉ Y LED POR SENSOR DE LUZ (LDR) - ARDUINO UNO
+(Correspondiente a la imagen enviada de Wokwi)
+================================================================================
+
+INSTRUCCIONES PARA WOKWI:
+1. Abre https://wokwi.com y selecciona un proyecto con "Arduino Uno".
+2. En la pestaña "sketch.ino", borra todo y pega el código de abajo.
+3. En la pestaña "diagram.json", borra todo y pega el código JSON de abajo.
+4. Presiona el botón verde de "Play" para iniciar la simulación.
+5. Puedes hacer clic en el sensor LDR durante la simulación para variar la luz (lux)
+   y observar cómo el relé y el LED se activan cuando baja de 750 (oscuridad)
+   y se apagan cuando sube (mucha luz).
+
+--------------------------------------------------------------------------------
+ARCHIVO: sketch.ino
+--------------------------------------------------------------------------------
+int sensorPin = A0; // LDR
+int relePin = 9;    // relé
+int ledPin = 8;     // LED
+int umbral = 750;   // Valor umbral para activar el relé y el LED
+
+void setup() {
+  pinMode(relePin, OUTPUT); // pin del relé como salida
+  pinMode(ledPin, OUTPUT);  // pin del LED como salida
+  Serial.begin(9600);       // Iniciar comunicacion serial
+}
+
+void loop() {
+  int valorLDR = analogRead(sensorPin); // Leer valor del LDR
+  Serial.println(valorLDR);             // Visualizar en Monitor Serial
+
+  // Si el valor del LDR es menor que el umbral, activar relé y LED
+  if (valorLDR < umbral) {
+    digitalWrite(relePin, HIGH); // Activar el relé
+    digitalWrite(ledPin, HIGH);  // Encender el LED
+  } else {
+    digitalWrite(relePin, LOW);  // Desactivar el relé
+    digitalWrite(ledPin, LOW);   // Apagar el LED
+  }
+
+  delay(1000); // Pequeña pausa para evitar lecturas continuas
+}
+
+--------------------------------------------------------------------------------
+ARCHIVO: diagram.json
+--------------------------------------------------------------------------------
+{
+  "version": 1,
+  "author": "GIAN FRANCO AROCUTIPA AROCUTIPA",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-arduino-uno",
+      "id": "uno",
+      "top": 163.8,
+      "left": -96.6,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-breadboard-half",
+      "id": "bb1",
+      "top": 160,
+      "left": 190,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": 185,
+      "left": 280,
+      "attrs": { "color": "red" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 245,
+      "left": 275,
+      "rotate": 90,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-relay-module",
+      "id": "relay1",
+      "top": 230,
+      "left": 580,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-photoresistor-sensor",
+      "id": "ldr1",
+      "top": 360,
+      "left": 460,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    [ "uno:5V", "bb1:bp.1", "red", [ "v0" ] ],
+    [ "uno:GND.1", "bb1:bn.1", "black", [ "v0" ] ],
+    [ "uno:8", "led1:A", "green", [ "v0" ] ],
+    [ "led1:C", "r1:1", "red", [] ],
+    [ "r1:2", "bb1:bn.10", "black", [] ],
+    [ "uno:9", "relay1:IN", "green", [ "v0" ] ],
+    [ "relay1:VCC", "bb1:bp.28", "red", [ "v0" ] ],
+    [ "relay1:GND", "bb1:bn.28", "black", [ "v0" ] ],
+    [ "uno:A0", "ldr1:AO", "green", [ "v0" ] ],
+    [ "ldr1:VCC", "bb1:bp.22", "red", [ "v0" ] ],
+    [ "ldr1:GND", "bb1:bn.22", "black", [ "v0" ] ]
+  ],
+  "serialMonitor": {
+    "display": "auto"
+  },
+  "dependencies": {}
+}

@@ -1,0 +1,164 @@
+{
+  "version": 1,
+  "author": "Perez Fabrizio - Arocutipa Gian Franco",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-hc-sr04",
+      "id": "ultrasonic",
+      "top": -140,
+      "left": 120,
+      "attrs": {
+        "distance": "50"
+      }
+    },
+    {
+      "type": "wokwi-lcd1602",
+      "id": "lcd",
+      "top": 130,
+      "left": 120,
+      "attrs": {
+        "pins": "i2c"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led",
+      "top": -70,
+      "left": -100,
+      "attrs": {
+        "color": "red"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 30,
+      "left": -100,
+      "attrs": {
+        "value": "220"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "ultrasonic:VCC",
+      "esp:VIN",
+      "red",
+      [
+        "v20",
+        "h-180",
+        "v160"
+      ]
+    ],
+    [
+      "ultrasonic:TRIG",
+      "esp:D5",
+      "brown",
+      [
+        "v30",
+        "h-50",
+        "v90"
+      ]
+    ],
+    [
+      "ultrasonic:ECHO",
+      "esp:D18",
+      "green",
+      [
+        "v40",
+        "h-40",
+        "v60"
+      ]
+    ],
+    [
+      "ultrasonic:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "v50",
+        "h-60",
+        "v150"
+      ]
+    ],
+    [
+      "lcd:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "h-30",
+        "v-40",
+        "h-20"
+      ]
+    ],
+    [
+      "lcd:VCC",
+      "esp:VIN",
+      "red",
+      [
+        "h-40",
+        "v60",
+        "h-180",
+        "v-150"
+      ]
+    ],
+    [
+      "lcd:SDA",
+      "esp:D21",
+      "purple",
+      [
+        "h-20",
+        "v-120"
+      ]
+    ],
+    [
+      "lcd:SCL",
+      "esp:D22",
+      "magenta",
+      [
+        "h-10",
+        "v-160"
+      ]
+    ],
+    [
+      "esp:D2",
+      "led:A",
+      "green",
+      [
+        "h20",
+        "v80",
+        "h-200",
+        "v-180"
+      ]
+    ],
+    [
+      "led:C",
+      "r1:1",
+      "green",
+      [
+        "v10"
+      ]
+    ],
+    [
+      "r1:2",
+      "esp:GND.2",
+      "black",
+      [
+        "v20",
+        "h50",
+        "v-50"
+      ]
+    ]
+  ],
+  "serialMonitor": {
+    "display": "auto"
+  },
+  "dependencies": {}
+}
