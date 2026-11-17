@@ -1,0 +1,10 @@
+# Cursor Rules for IOTPractice
+# Refer to AGENTS.md for full instructions.
+
+When the user asks to solve a lab ("resuelve" / "resuélvelo") or provides a circuit guide/image:
+- Create folder `fg_YYYY-MM-DD` (e.g. `fg_2026-11-17`).
+- Inside create:
+  1. README.md: Detailed step-by-step assembly for Tinkercad with exact component list, pin-by-pin connection table, and validation checklist.
+  2. sketch.ino: Tested and commented Arduino/ESP32 code.
+  3. diagram.json: Exact Wokwi schematic with native pin identifiers (esp:VIN, nano:2, uno:7, etc.).
+- Auto git commit and push to origin main.
