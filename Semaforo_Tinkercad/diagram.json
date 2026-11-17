@@ -1,0 +1,220 @@
+{
+  "version": 1,
+  "author": "Gian Franco Arocutipa Arocutipa",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-arduino-uno",
+      "id": "uno",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-7segment",
+      "id": "sevseg",
+      "top": 50,
+      "left": 260,
+      "attrs": {
+        "common": "cathode",
+        "color": "red"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_rojo",
+      "top": -60,
+      "left": 180,
+      "attrs": {
+        "color": "red"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_amarillo",
+      "top": 0,
+      "left": 180,
+      "attrs": {
+        "color": "yellow"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_verde",
+      "top": 60,
+      "left": 180,
+      "attrs": {
+        "color": "green"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_r",
+      "top": -30,
+      "left": 180,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_a",
+      "top": 30,
+      "left": 180,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_v",
+      "top": 90,
+      "left": 180,
+      "attrs": {
+        "value": "220"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "uno:7",
+      "led_rojo:A",
+      "red",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "led_rojo:C",
+      "r_r:1",
+      "red",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "r_r:2",
+      "uno:GND.1",
+      "black",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "uno:8",
+      "led_amarillo:A",
+      "gold",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "led_amarillo:C",
+      "r_a:1",
+      "gold",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "r_a:2",
+      "uno:GND.1",
+      "black",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "uno:10",
+      "led_verde:A",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "led_verde:C",
+      "r_v:1",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "r_v:2",
+      "uno:GND.1",
+      "black",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "uno:13",
+      "sevseg:A",
+      "purple",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "uno:12",
+      "sevseg:B",
+      "purple",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "uno:11",
+      "sevseg:C",
+      "purple",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "uno:9",
+      "sevseg:D",
+      "purple",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "uno:6",
+      "sevseg:E",
+      "purple",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "uno:5",
+      "sevseg:F",
+      "purple",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "uno:4",
+      "sevseg:G",
+      "purple",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "sevseg:COM.1",
+      "uno:GND.2",
+      "black",
+      [
+        "v0"
+      ]
+    ]
+  ],
+  "serialMonitor": {
+    "display": "auto"
+  },
+  "dependencies": {}
+}
