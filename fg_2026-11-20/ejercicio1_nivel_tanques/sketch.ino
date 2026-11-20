@@ -1,44 +1,94 @@
 #include <LiquidCrystal.h>
 #include <Servo.h>
 
+// Pines del LCD 16x2 (RS, E, D4, D5, D6, D7)
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+// Pines de los sensores HC-SR04 (Tanque 1 y Tanque 2)
+const int trigTanque1 = 6;
+const int echoTanque1 = 7;
+const int trigTanque2 = 8;
+const int echoTanque2 = 9;
+
+// Pines de la valvula (servo) y LED de alarma
+const int pinServo  = 10;
+const int ledAlarma = 13;
+
+// Dimensiones de cada tanque (2 m de alto y 0.5 m de radio)
+const float alturaTanqueCm = 200.0;
+const float radioTanqueM   = 0.5;
+const float areaBaseM2     = PI * radioTanqueM * radioTanqueM;
+const float volumenTotalL  = areaBaseM2 * 2.0 * 1000.0; // ~1570.8 litros
+
 Servo valvula;
 
-float medirCm(int trig, int echo) {
-  digitalWrite(trig, LOW);
+float medirDistanciaCm(int pinTrig, int pinEcho) {
+  digitalWrite(pinTrig, LOW);
   delayMicroseconds(2);
-  digitalWrite(trig, HIGH);
+  digitalWrite(pinTrig, HIGH);
   delayMicroseconds(10);
-  digitalWrite(trig, LOW);
-  long t = pulseIn(echo, HIGH, 25000);
-  return t == 0 ? 200.0 : (t * 0.0343) / 2.0;
+  digitalWrite(pinTrig, LOW);
+
+  unsigned long duracion = pulseIn(pinEcho, HIGH, 25000);
+  if (duracion == 0) {
+    return alturaTanqueCm;
+  }
+  return (duracion * 0.0343) / 2.0;
 }
 
 void setup() {
-  pinMode(6, OUTPUT); pinMode(7, INPUT);
-  pinMode(8, OUTPUT); pinMode(9, INPUT);
-  pinMode(13, OUTPUT);
-  valvula.attach(10);
-  valvula.write(90);
+  pinMode(trigTanque1, OUTPUT);
+  pinMode(echoTanque1, INPUT);
+  pinMode(trigTanque2, OUTPUT);
+  pinMode(echoTanque2, INPUT);
+  pinMode(ledAlarma, OUTPUT);
+
+  valvula.attach(pinServo);
+  valvula.write(90); // Valvula abierta
+
   lcd.begin(16, 2);
 }
 
 void loop() {
-  float h1 = constrain(200.0 - medirCm(6, 7), 0.0, 200.0);
+  // Medir distancia en ambos tanques
+  float distancia1 = medirDistanciaCm(trigTanque1, echoTanque1);
   delay(35);
-  float h2 = constrain(200.0 - medirCm(8, 9), 0.0, 200.0);
+  float distancia2 = medirDistanciaCm(trigTanque2, echoTanque2);
 
-  float v1 = PI * 0.25 * (h1 / 100.0) * 1000.0;
-  float v2 = PI * 0.25 * (h2 / 100.0) * 1000.0;
-  float p1 = (h1 / 200.0) * 100.0;
-  float p2 = (h2 / 200.0) * 100.0;
+  // Calcular altura del liquido (cm)
+  float altura1 = constrain(alturaTanqueCm - distancia1, 0.0, alturaTanqueCm);
+  float altura2 = constrain(alturaTanqueCm - distancia2, 0.0, alturaTanqueCm);
 
-  digitalWrite(13, (p1 >= 90.0 || p2 >= 90.0) ? HIGH : LOW);
-  valvula.write((p1 > 95.0 || p2 > 95.0) ? 0 : 90);
+  // Calcular volumen en litros y porcentaje de cada tanque
+  float volumen1    = areaBaseM2 * (altura1 / 100.0) * 1000.0;
+  float volumen2    = areaBaseM2 * (altura2 / 100.0) * 1000.0;
+  float porcentaje1 = (volumen1 / volumenTotalL) * 100.0;
+  float porcentaje2 = (volumen2 / volumenTotalL) * 100.0;
 
+  // Encender LED de alarma al llegar al 90%
+  if (porcentaje1 >= 90.0 || porcentaje2 >= 90.0) {
+    digitalWrite(ledAlarma, HIGH);
+  } else {
+    digitalWrite(ledAlarma, LOW);
+  }
+
+  // Cerrar valvula de entrada al pasar el 95%
+  if (porcentaje1 > 95.0 || porcentaje2 > 95.0) {
+    valvula.write(0);  // Cerrada
+  } else {
+    valvula.write(90); // Abierta
+  }
+
+  // Mostrar volumen de ambos tanques en el LCD
   lcd.setCursor(0, 0);
-  lcd.print("T1: "); lcd.print((int)v1); lcd.print(" L     ");
+  lcd.print("Tanque 1:");
+  lcd.print((int)volumen1);
+  lcd.print("L   ");
+
   lcd.setCursor(0, 1);
-  lcd.print("T2: "); lcd.print((int)v2); lcd.print(" L     ");
+  lcd.print("Tanque 2:");
+  lcd.print((int)volumen2);
+  lcd.print("L   ");
+
   delay(300);
 }

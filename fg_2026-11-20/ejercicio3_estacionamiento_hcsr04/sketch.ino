@@ -1,52 +1,131 @@
-const byte num[10][7] = {
-  {1,1,1,1,1,1,0}, {0,1,1,0,0,0,0}, {1,1,0,1,1,0,1}, {1,1,1,1,0,0,1}, {0,1,1,0,0,1,1},
-  {1,0,1,1,0,1,1}, {1,0,1,1,1,1,1}, {1,1,1,0,0,0,0}, {1,1,1,1,1,1,1}, {1,1,1,1,0,1,1}
+// Pines de los 7 segmentos compartidos (A, B, C, D, E, F, G)
+const int pinesSegmentos[7] = {2, 3, 4, 5, 6, 7, 8};
+
+// Pines de los catodos comunes de los 3 displays (Centenas, Decenas, Unidades)
+const int pinesDigitos[3] = {9, 10, 11};
+
+// Pines del sensor HC-SR04
+const int pinTrig = 12;
+const int pinEcho = 13;
+
+// Pines de los LEDs y alarma sonora
+const int ledVerde   = A0;
+const int ledNaranja = A1;
+const int ledRojo    = A2;
+const int pinBuzzer  = A3;
+
+// Tabla de digitos 0 a 9 para display de catodo comun (A, B, C, D, E, F, G)
+const byte tablaDigitos[10][7] = {
+  {1, 1, 1, 1, 1, 1, 0}, // 0
+  {0, 1, 1, 0, 0, 0, 0}, // 1
+  {1, 1, 0, 1, 1, 0, 1}, // 2
+  {1, 1, 1, 1, 0, 0, 1}, // 3
+  {0, 1, 1, 0, 0, 1, 1}, // 4
+  {1, 0, 1, 1, 0, 1, 1}, // 5
+  {1, 0, 1, 1, 1, 1, 1}, // 6
+  {1, 1, 1, 0, 0, 0, 0}, // 7
+  {1, 1, 1, 1, 1, 1, 1}, // 8
+  {1, 1, 1, 1, 0, 1, 1}  // 9
 };
 
-int dist = 0, dig[3] = {0, 0, 0}, d = 0;
-unsigned long tSens = 0, tMux = 0, tLed = 0;
-bool vEst = false;
+int distanciaCm = 0;
+int digitos[3]  = {0, 0, 0};
+int digitoActual = 0;
+bool estadoVerde = false;
+
+unsigned long tiempoSensor   = 0;
+unsigned long tiempoMux      = 0;
+unsigned long tiempoParpadeo = 0;
+
+void apagarDigitos() {
+  for (int i = 0; i < 3; i++) {
+    digitalWrite(pinesDigitos[i], HIGH);
+  }
+}
+
+int medirDistanciaCm() {
+  apagarDigitos();
+  digitalWrite(pinTrig, LOW);
+  delayMicroseconds(2);
+  digitalWrite(pinTrig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(pinTrig, LOW);
+
+  unsigned long duracion = pulseIn(pinEcho, HIGH, 23000);
+  if (duracion == 0) {
+    return 330;
+  }
+  int cm = (int)((duracion * 0.0343) / 2.0 + 0.5);
+  return constrain(cm, 0, 330);
+}
+
+void refrescarDisplays() {
+  apagarDigitos();
+  int numero = digitos[digitoActual];
+  for (int s = 0; s < 7; s++) {
+    digitalWrite(pinesSegmentos[s], tablaDigitos[numero][s]);
+  }
+  digitalWrite(pinesDigitos[digitoActual], LOW);
+  digitoActual = (digitoActual + 1) % 3;
+}
 
 void setup() {
-  for (int p = 2; p <= 12; p++) pinMode(p, OUTPUT);
-  for (int p = 9; p <= 11; p++) digitalWrite(p, HIGH);
-  pinMode(13, INPUT);
-  pinMode(A0, OUTPUT); pinMode(A1, OUTPUT); pinMode(A2, OUTPUT); pinMode(A3, OUTPUT);
+  for (int s = 0; s < 7; s++) {
+    pinMode(pinesSegmentos[s], OUTPUT);
+  }
+  for (int d = 0; d < 3; d++) {
+    pinMode(pinesDigitos[d], OUTPUT);
+    digitalWrite(pinesDigitos[d], HIGH);
+  }
+
+  pinMode(pinTrig, OUTPUT);
+  pinMode(pinEcho, INPUT);
+  pinMode(ledVerde, OUTPUT);
+  pinMode(ledNaranja, OUTPUT);
+  pinMode(ledRojo, OUTPUT);
+  pinMode(pinBuzzer, OUTPUT);
 }
 
 void loop() {
-  unsigned long ms = millis();
+  unsigned long ahora = millis();
 
-  if (ms - tSens >= 150) {
-    tSens = ms;
-    for (int p = 9; p <= 11; p++) digitalWrite(p, HIGH);
-    digitalWrite(12, LOW);  delayMicroseconds(2);
-    digitalWrite(12, HIGH); delayMicroseconds(10);
-    digitalWrite(12, LOW);
-    long t = pulseIn(13, HIGH, 23000);
-    dist = (t == 0) ? 330 : constrain((int)((t * 0.0343) / 2.0 + 0.5), 0, 330);
-    dig[0] = (dist / 100) % 10;
-    dig[1] = (dist / 10) % 10;
-    dig[2] = dist % 10;
+  // Medir distancia cada 150 ms y separar en 3 digitos (0 - 330 cm)
+  if (ahora - tiempoSensor >= 150) {
+    tiempoSensor = ahora;
+    distanciaCm = medirDistanciaCm();
+    digitos[0] = (distanciaCm / 100) % 10;
+    digitos[1] = (distanciaCm / 10) % 10;
+    digitos[2] = distanciaCm % 10;
   }
 
-  if (dist > 300) {
-    if (ms - tLed >= 300) { tLed = ms; vEst = !vEst; }
-    digitalWrite(A0, vEst); digitalWrite(A1, LOW); digitalWrite(A2, LOW);
-    noTone(A3);
-  } else if (dist >= 100) {
-    digitalWrite(A0, LOW); digitalWrite(A1, HIGH); digitalWrite(A2, LOW);
-    noTone(A3);
+  // Controlar LEDs y alarma segun la distancia
+  if (distanciaCm > 300) {
+    // Mayor a 3.0 m: LED verde parpadeando
+    if (ahora - tiempoParpadeo >= 300) {
+      tiempoParpadeo = ahora;
+      estadoVerde = !estadoVerde;
+    }
+    digitalWrite(ledVerde, estadoVerde);
+    digitalWrite(ledNaranja, LOW);
+    digitalWrite(ledRojo, LOW);
+    noTone(pinBuzzer);
+  } else if (distanciaCm >= 100) {
+    // De 1.0 m hasta 3.0 m: LED naranja
+    digitalWrite(ledVerde, LOW);
+    digitalWrite(ledNaranja, HIGH);
+    digitalWrite(ledRojo, LOW);
+    noTone(pinBuzzer);
   } else {
-    digitalWrite(A0, LOW); digitalWrite(A1, LOW); digitalWrite(A2, HIGH);
-    tone(A3, 1200);
+    // Menor a 1.0 m: LED rojo y alarma sonora
+    digitalWrite(ledVerde, LOW);
+    digitalWrite(ledNaranja, LOW);
+    digitalWrite(ledRojo, HIGH);
+    tone(pinBuzzer, 1200);
   }
 
-  if (ms - tMux >= 4) {
-    tMux = ms;
-    for (int p = 9; p <= 11; p++) digitalWrite(p, HIGH);
-    for (int s = 0; s < 7; s++) digitalWrite(2 + s, num[dig[d]][s]);
-    digitalWrite(9 + d, LOW);
-    d = (d + 1) % 3;
+  // Multiplexar los 3 displays cada 4 ms
+  if (ahora - tiempoMux >= 4) {
+    tiempoMux = ahora;
+    refrescarDisplays();
   }
 }
