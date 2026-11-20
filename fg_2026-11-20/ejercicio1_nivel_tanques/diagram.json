@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "author": "Perez Fabrizio - Arocutipa Gian Franco",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-arduino-uno",
+      "id": "uno",
+      "top": 120,
+      "left": -40,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-lcd1602",
+      "id": "lcd",
+      "top": -150,
+      "left": -80,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot",
+      "top": -20,
+      "left": -220,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_lcd",
+      "top": -10,
+      "left": 250,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-hc-sr04",
+      "id": "hcsr1",
+      "top": -150,
+      "left": 270,
+      "attrs": {
+        "distance": "100"
+      }
+    },
+    {
+      "type": "wokwi-hc-sr04",
+      "id": "hcsr2",
+      "top": -150,
+      "left": 470,
+      "attrs": {
+        "distance": "120"
+      }
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "valvula",
+      "top": 140,
+      "left": 350,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_alarma",
+      "top": 40,
+      "left": 370,
+      "attrs": {
+        "color": "red"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_led",
+      "top": 80,
+      "left": 430,
+      "attrs": {
+        "value": "220"
+      }
+    }
+  ],
+  "connections": [
+    [ "uno:12", "lcd:RS", "orange", [ "v-40", "h-80" ] ],
+    [ "uno:11", "lcd:E", "yellow", [ "v-50", "h-60" ] ],
+    [ "uno:5", "lcd:D4", "green", [ "v-60", "h-40" ] ],
+    [ "uno:4", "lcd:D5", "blue", [ "v-70", "h-20" ] ],
+    [ "uno:3", "lcd:D6", "purple", [ "v-80", "h0" ] ],
+    [ "uno:2", "lcd:D7", "magenta", [ "v-90", "h20" ] ],
+    [ "lcd:VSS", "uno:GND.1", "black", [ "v20", "h-60" ] ],
+    [ "lcd:RW", "uno:GND.1", "black", [ "v20", "h-80" ] ],
+    [ "lcd:K", "uno:GND.1", "black", [ "v30", "h-120" ] ],
+    [ "lcd:VDD", "uno:5V", "red", [ "v30", "h-40" ] ],
+    [ "lcd:A", "r_lcd:1", "red", [ "v20" ] ],
+    [ "r_lcd:2", "uno:5V", "red", [ "v30", "h-100" ] ],
+    [ "pot:VCC", "uno:5V", "red", [ "v20" ] ],
+    [ "pot:GND", "uno:GND.2", "black", [ "v20" ] ],
+    [ "pot:SIG", "lcd:V0", "cyan", [ "v-40", "h120" ] ],
+    [ "hcsr1:VCC", "uno:5V", "red", [ "v40", "h-200" ] ],
+    [ "hcsr1:GND", "uno:GND.2", "black", [ "v50", "h-220" ] ],
+    [ "hcsr1:TRIG", "uno:6", "brown", [ "v30", "h-150" ] ],
+    [ "hcsr1:ECHO", "uno:7", "limegreen", [ "v35", "h-140" ] ],
+    [ "hcsr2:VCC", "uno:5V", "red", [ "v40", "h-400" ] ],
+    [ "hcsr2:GND", "uno:GND.2", "black", [ "v50", "h-420" ] ],
+    [ "hcsr2:TRIG", "uno:8", "gold", [ "v30", "h-340" ] ],
+    [ "hcsr2:ECHO", "uno:9", "turquoise", [ "v35", "h-330" ] ],
+    [ "valvula:V+", "uno:5V", "red", [ "h-40", "v140" ] ],
+    [ "valvula:GND", "uno:GND.3", "black", [ "h-50", "v120" ] ],
+    [ "valvula:PWM", "uno:10", "orange", [ "h-60", "v-90" ] ],
+    [ "uno:13", "led_alarma:A", "red", [ "v-20", "h260" ] ],
+    [ "led_alarma:C", "r_led:1", "red", [ "v10" ] ],
+    [ "r_led:2", "uno:GND.3", "black", [ "v120", "h-280" ] ]
+  ],
+  "serialMonitor": {
+    "display": "auto"
+  },
+  "dependencies": {}
+}
