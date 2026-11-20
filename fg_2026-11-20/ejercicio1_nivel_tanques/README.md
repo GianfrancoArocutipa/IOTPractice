@@ -103,7 +103,7 @@ $$\%\,\text{Nivel} = \frac{V}{V_{\text{máx}}} \times 100 = \frac{h}{200} \times
 
 ### Puntos de Verificación de Funcionamiento
 - Haz clic sobre el **HC-SR04 #1** durante la simulación para abrir su deslizador de distancia:
-  1. Ubica el objeto a **100 cm** → El LCD muestra `T1: 785L  50% AB`, LED apagado, Servo en $90^\circ$ (Abierta).
-  2. Acerca el objeto a **18 cm** ($\approx 91\%$) → El LCD muestra `AL`, el **LED rojo se enciende**, la válvula sigue en `AB` ($90^\circ$).
-  3. Acerca el objeto a **6 cm** ($\approx 97\%$) → El LCD muestra `CE` y `AL`, el **LED rojo permanece encendido** y el **Servomotor gira a $0^\circ$** cerrando la válvula de entrada.
+  1. Ubica el objeto a **100 cm** → El LCD muestra `T1: 785 L`, LED apagado, Servo en $90^\circ$ (Abierta).
+  2. Acerca el objeto a **18 cm** ($\approx 91\%$) → El LCD muestra `T1: 1429 L`, el **LED rojo se enciende**, la válvula sigue abierta ($90^\circ$).
+  3. Acerca el objeto a **6 cm** ($\approx 97\%$) → El LCD muestra `T1: 1523 L`, el **LED rojo permanece encendido** y el **Servomotor gira a $0^\circ$** cerrando la válvula de entrada.
   4. Repite la prueba con el **HC-SR04 #2** para verificar el monitoreo simultáneo del Tanque 2.
